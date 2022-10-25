@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1A2B</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        body{
+            background-image: url(./pic1.jpg);
+        }
+        .container {
+            min-width: 460px;
+            max-width: 600px;
+            background-color: #000;
+        }
+        .board {
+            height: 450px;
+            overflow: auto;
+        }
+        input:focus::placeholder {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container w-75 m-3 mx-auto p-2 text-center border border-4">
+        <div class="board border border-1 m-2 bg-dark p-2"></div>
+        <div class="input row w-75 mx-auto justify-content-between p-2"><input type="text" placeholder="請輸入4位不重複數字"
+                class="col-9 text-center border border-1 border-dark rounded-pill ">
+            <button class="col-3 btn btn-dark rounded-5">Guess</button>
+        </div>
+        <div class="func-btn row justify-content-center m-2">
+            <button class="col-3 m-1 btn btn-success rounded-5">Start</button>
+            <button class="col-3 m-1 btn btn-danger rounded-5">GiveUp</button>
+            <button class="col-3 m-1 btn btn-primary rounded-5">Answer</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script>
+        const board = document.querySelector('.board')
+        const start = document.querySelector('.func-btn button:nth-child(1)')
+        const giveUp = document.querySelector('.func-btn button:nth-child(2)')
+        const showAnswer = document.querySelector('.func-btn button:nth-child(3)')
+        const guessNum = document.querySelector('.input button')
+        const input = document.querySelector('.input input')
+        let btn = document.querySelectorAll('button:not(.func-btn button:nth-child(1))')
+        let answer = []
+        let isNum = true
+        window.onload = function () {
+            alert('請點選start開始遊戲')
+            btn.forEach(x => { x.classList.add('disabled') })
+            //Start
+            start.addEventListener('click', function (event) {
+                while (answer.length < 4) {
+                    let random = Math.floor(Math.random() * 10)
+                    if (!answer.includes(random)) {
+                        answer.push(random)
+                    }
+                    btn.forEach(x => { x.classList.remove('disabled') })
+                }
+                start.setAttribute('disabled', 'disabled')
+            })
+            //Give Up
+            giveUp.addEventListener('click', function (event) {
+                alert('選擇放棄,請重新開始遊戲')
+                location.reload()
+            })
+            //Show Answer
+            showAnswer.addEventListener('click', function (event) {
+                alert(`答案為:${answer}`)
+            })
+            //Check Answer
+            guessNum.addEventListener('click', function (event) {
+                checkAnswer()
+            })
+            input.onkeypress = function(event){
+                if(event.keyCode == 13){
+                    checkAnswer()
+                }
+            }
+        }
+        function checkAnswer(){
+            //判斷輸入是否為數字
+            inputArr = Array.from(input.value)
+                inputArr.forEach(x => {
+                    if (Number.isInteger(Number(x)) === false) { isNum = false }
+                })
+                //判斷長度+是否重複
+                let inputLength = Array.from(new Set(inputArr)).length
+                if (isNum && inputLength == 4 && inputArr.length ==4) {
+                    //求出a,b
+                    const guess = Array.from(inputArr).reduce((x, y) => {
+                        x.push(Number(y))
+                        return x
+                    }, [])
+                    const intersect = answer.filter(x => guess.includes(x))
+                    const a = intersect.filter(x => answer.indexOf(x) == guess.indexOf(x)).length
+                    const b = intersect.length - a
+                    //將資訊增加至版面 
+                    const p = document.createElement('p')
+                    p.classList.add('border-bottom', 'border-white', 'p-1', 'text-start')
+                    p.setAttribute('border', 1)
+                    const span1 = document.createElement('span')
+                    span1.innerText = `${a}A${b}B`
+                    const span2 = document.createElement('span')
+                    span2.classList.add('text-white')
+                    span2.innerText = guess
+                    p.append(span1, span2)
+                    board.appendChild(p)
+                    //設定span1背景色
+                    if (a === 4) {
+                        span1.classList.add('text-white', 'bg-success', 'rounded-2', 'p-1', 'm-1')
+                        setTimeout(() => {
+                            alert('恭喜遊戲通關!!!')
+                            location.reload()
+                        }, 1000);
+                    }
+                    else { span1.classList.add('text-white', 'bg-danger', 'rounded-2', 'p-1', 'm-1') }
+                } else { alert('請輸入符合規範的數字') }
+                input.value = ''
+                isNum = true
+                board.scrollTo(0, board.scrollHeight)
+        }
+    </script>
+</body>
+
+</html>

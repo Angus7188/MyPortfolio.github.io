@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>ToDoList</title>
+    <style>
+        body {
+            background-image: url('https://th.bing.com/th/id/OIP.92WFeVe--Wz1wg276PwIWQHaHa?pid=ImgDet&rs=1');
+        }
+
+        .wrap {
+            width: 50%;
+            margin: 35px auto;
+            padding: 20px;
+            border: 3px solid #000;
+            border-radius: 50px;
+            background-color: burlywood;
+            position: relative;
+        }
+
+        .title {
+            font-weight: bold;
+            color: #444;
+        }
+
+        textarea {
+            border-radius: 20px;
+            max-height: 120px;
+            min-height: 120px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .list-area {
+            width: 100%;
+            height: 360px;
+            border: 2px solid #000;
+            border-radius: 50px;
+            background-color: #ddd;
+            margin-top: 10px;
+            padding: 10px 20px;
+            overflow: auto;
+        }
+
+        .pic {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            top: -50px;
+        }
+
+        .pic img {
+            width: 100%;
+        }
+
+        .pic-1 {
+            right: -50px;
+        }
+
+        .pic-2 {
+            top: -70px;
+            left: -30px;
+        }
+
+        .todoCard {
+            border-radius: 30px;
+            border: solid #000 1px;
+        }
+
+        .todoCard textarea {
+            min-height: 70px;
+            max-height: 70px;
+        }
+
+        #check {
+            width: 20px;
+            height: 20px;
+        }
+
+        .todoCard button {
+            font-weight: bold;
+            font-size: 15px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            line-height: 0px;
+        }
+
+        /* 網頁捲軸【寬度】 */
+        ::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 50px;
+        }
+
+        /* 網頁捲軸【背景】顏色 */
+        ::-webkit-scrollbar-track {
+            background: #0004;
+            border-radius: 10px;
+        }
+
+        /* 網頁捲軸【把手】顏色 */
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* 網頁捲軸【滑過時】把手的顏色 */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap text-center">
+        <h1 class="title">待辦清單</h1>
+        <div class="input d-flex flex-column">
+            <textarea name="" id="" cols="100" rows="5" placeholder="新增待辦事項..."></textarea>
+            <button class="btn btn-dark add" onclick="addList()">點擊新增</button>
+        </div>
+        <div class="list-area"></div>
+        <div class="pic pic-1"><img src="./pin1.png" alt=""></div>
+        <div class="pic pic-2"><img src="./pin2.png" alt=""></div>
+    </div>
+
+    <template class="todoCard">
+        <div class="card todoCard">
+            <div class="card-body row justify-content-center align-items-center">
+                <div class="col-1 d-flex justify-content-center"><input type="checkbox" id="check"></div>
+                <textarea class="col-8 textList" disabled></textarea>
+                <button class="col-1 bg-primary text-white edit-btn">修</button>
+                <button class="col-1 bg-danger text-white del-btn">刪</button>
+
+            </div>
+        </div>
+    </template>
+
+    <script>
+        //anounce
+        const key = 'key'
+
+        //DOM
+        const input = document.querySelector('.input textarea')
+        const addBtn = document.querySelector('.add')
+        const listArea = document.querySelector('.list-area')
+        const template = document.querySelector('.todoCard')
+
+        //window.onload
+        window.onload = function () {
+            showList()
+        }
+
+        //function
+        function showList() {
+            listArea.innerHTML = ''
+            let todoList = JSON.parse(localStorage.getItem(key))
+            if (localStorage.getItem(key) != null) {
+
+                todoList.forEach((item, index) => {
+                    let cloneCard = template.content.cloneNode(true)
+                    let editBtn = document.querySelector('.edit-btn')
+
+                    cloneCard.querySelector('textarea').innerText = item.title
+                    cloneCard.querySelector('#check').checked = item.check == true ? true : false
+                    listArea.appendChild(cloneCard)
+
+                    document.querySelectorAll('.card').forEach((x, index) => {
+                        x.setAttribute('index', index)
+                        x.querySelector('.edit-btn').onclick = function () {
+                            editList(index)
+                        }
+                        x.querySelector('.del-btn').onclick = function () {
+                            deletList(index)
+                        }
+                        x.querySelector('#check').onclick = function () {
+                            checkBox(index)
+                        }
+
+                    })
+                })
+            }
+            input.value = ''
+        }
+
+        function addList() {
+            let todoList = []
+            let todoObj = {
+                title: input.value,
+                check: false
+            }
+
+            if (input.value != '') {
+                if (localStorage.getItem(key) == null) {
+                    todoList.push(todoObj)
+                } else {
+                    todoList = JSON.parse(localStorage.getItem(key))
+                    todoList.push(todoObj)
+                }
+                localStorage.setItem(key, JSON.stringify(todoList))
+
+                showList()
+            }
+        }
+
+        function checkBox(index) {
+            let textList = document.querySelector(`div[index="${index}"] textarea`)
+            let check = document.querySelector(`div[index="${index}"] #check`)
+            let checkData = check.checked == true ? true : false
+
+            let todoItem = textList.value
+            let todoList = JSON.parse(localStorage.getItem(key))
+            todoList[index] = { title: todoItem, check: checkData }
+            localStorage.setItem(key, JSON.stringify(todoList))
+        }
+
+        function editList(index) {
+            let textList = document.querySelector(`div[index="${index}"] textarea`)
+            textList.hasAttribute('disabled') ? textList.removeAttribute('disabled') : textList.setAttribute('disabled', '')
+            let editBtn1 = document.querySelector(`div[index="${index}"] .edit-btn`)
+            editBtn1.innerText = editBtn1.innerText == '修' ? '存' : '修'
+
+            if (editBtn1.innerText == '修') {
+                editBtn1.classList.remove('bg-success')
+                editBtn1.classList.add('bg-primary')
+            } else {
+                editBtn1.classList.remove('bg-success')
+                editBtn1.classList.add('bg-success')
+            }
+
+            let todoItem = textList.value
+            let todoList = JSON.parse(localStorage.getItem(key))
+            todoList[index] = { title: todoItem, check: false }
+            localStorage.setItem(key, JSON.stringify(todoList))
+            checkBox(index)
+        }
+
+        function deletList(index) {
+            let todoList = JSON.parse(localStorage.getItem(key))
+            todoList.splice(index, 1)
+
+            localStorage.setItem(key, JSON.stringify(todoList))
+            showList()
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="">
+    <script src="https://kit.fontawesome.com/9fd2957bbe.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Apple</title>
+    <style>
+        nav .search{
+            width: 1px;
+            overflow: hidden;
+        }
+        .menu-product-list {
+            width: 100%;
+        }
+
+        @media screen and (max-width: 767px) {
+            nav li{
+                border-bottom: 1px solid #444;
+            }
+            nav li:nth-of-type(1),
+            nav li:nth-of-type(10),
+            nav li:nth-of-type(11){
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <!-- <a class="navbar-brand" href="#">Hidden brand</a> -->
+            <ul class="navbar-nav w-75 justify-content-around mb-2 mb-lg-0 m-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="./AppleStore.html"><i class="fa-brands fa-apple text-white"></i></a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="./AppleStore.html">商店</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./iPhone/iphone.html" >iPhone</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./iPad/ipad.html" >iPad</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./airPods/airPods.html" >AirPods</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" >Mac</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" >Watch</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" >配件</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" >支援服務</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" ><i class="fa-solid fa-magnifying-glass"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" ><i class="fa-solid fa-cart-shopping"></i></a>
+              </li>
+            </ul>
+            <!-- <form class="d-flex search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form> -->
+          </div>
+        </div>
+      </nav>
+
+    <main>
+        <ul class="row text-center justify-content-evenly p-0 m-0">
+            <li class="col-10 col-md-3">
+                <a class="text-decoration-none text-black" href="./iPhone/iphone.html">
+                    <img src="./iPhone/iPhone 13 Pro main.jpg" class="w-100">
+                    <h2>iPhone</h2>
+                </a>
+            </li>
+            <li class="col-10 col-md-3">
+                <a class="text-decoration-none text-black" href="./iPad/ipad.html" >
+                    <img src="./iPad/ipadmain.jpg" class="w-100">
+                    <h2>iPad</h2>
+                </a>
+            </li>
+            <li class="col-10 col-md-3">
+                <a class="text-decoration-none text-black" href="./airPods/airPods.html">
+                    <img src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/airpods-max-hero-select-202011?wid=470&hei=556&fmt=jpeg&qlt=95&.v=1604709293000"  class="w-100">
+                    <h2>AirPods</h2>
+                </a>
+            </li>
+        </ul>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

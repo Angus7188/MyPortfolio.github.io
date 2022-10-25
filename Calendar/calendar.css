@@ -1,0 +1,239 @@
+@charset "UTF-8";
+html {
+  position: relative;
+}
+
+body {
+  background-image: url(./pexels-eberhard-grossgasteiger-640781.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* 網頁捲軸【寬度】 */
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 50px;
+}
+
+/* 網頁捲軸【背景】顏色 */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2666666667);
+  border-radius: 10px;
+}
+
+/* 網頁捲軸【把手】顏色 */
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* 網頁捲軸【滑過時】把手的顏色 */
+::-webkit-scrollbar-thumb:hover {
+  background: #000;
+}
+
+.calender {
+  display: grid;
+  place-items: center;
+  margin-top: 5px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.calender .header {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.calender .header span {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.8s;
+}
+.calender .header span:hover {
+  color: rgb(253, 198, 88);
+  transition: 0.3s;
+}
+.calender .header h3 {
+  font-size: 40px;
+  font-weight: bold;
+  border-radius: 30px;
+  padding: 10px 20px;
+}
+
+.body .week {
+  width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.body .week div {
+  height: 50px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body .list {
+  width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: rgba(204, 204, 204, 0.2666666667);
+  margin-bottom: 30px;
+}
+.body .list div {
+  overflow: hidden;
+  height: 90px;
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid #999;
+  transition: 0.3s;
+}
+.body .list div ul {
+  padding: 0;
+  font-size: 10px;
+  width: 100px;
+  margin: auto;
+}
+.body .list div ul li {
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 5px;
+  overflow: hidden;
+  padding: 2px;
+  height: 3px;
+}
+.body .list div:hover {
+  position: relative;
+  transform: scale(1.2);
+  transition: 0.3s;
+  background-color: rgba(221, 221, 221, 0.6);
+  color: #000;
+  font-size: 20px;
+  overflow: auto;
+}
+.body .list div:hover ul {
+  opacity: 100;
+  color: #fff;
+}
+.body .list div:hover li {
+  height: 20px;
+}
+.body .list .today {
+  color: rgb(253, 198, 88);
+  transition: 0.3s;
+}
+.body .list .today:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3333333333);
+}
+.body .list .fadeout {
+  color: #888;
+  transition: 0.3s;
+}
+.body .list .fadeout:hover {
+  color: #888;
+  background-color: rgba(136, 136, 136, 0.5333333333);
+}
+
+.storage {
+  width: 400px;
+  height: 500px;
+  color: #000;
+  background-color: #ccc;
+  text-align: center;
+  border-radius: 30px;
+  padding: 20px;
+  position: absolute;
+  z-index: 4;
+  display: none;
+}
+.storage input {
+  font-size: 23px;
+  margin-bottom: 10px;
+}
+.storage input:focus::-moz-placeholder {
+  color: #fff;
+}
+.storage input:focus:-ms-input-placeholder {
+  color: #fff;
+}
+.storage input:focus::placeholder {
+  color: #fff;
+}
+.storage input:focus {
+  outline: none;
+}
+.storage .buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+.storage button {
+  border-radius: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.storage button:hover {
+  background-color: #000;
+  color: #fff;
+  transition: 0.3s;
+}
+.storage .close {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+  right: -15px;
+  cursor: pointer;
+}
+.storage .close:hover {
+  background-color: #fff;
+  color: #000;
+}
+.storage .text-area {
+  text-align: left;
+  font-size: 20px;
+  height: 300px;
+  overflow: auto;
+}
+.storage .text-area ul {
+  padding: 0;
+}
+.storage .text-area li {
+  cursor: pointer;
+  padding: 10px;
+}
+.storage .text-area li:hover {
+  border-radius: 30px;
+  background-color: #000;
+  color: #fff;
+}
+
+.block {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.5333333333);
+  display: none;
+}/*# sourceMappingURL=calendar.css.map */

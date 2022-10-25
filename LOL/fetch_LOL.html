@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LOL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        * {
+            font-weight: bold;
+        }
+
+        body {
+            background-image: url(./Pictures-Lol-Backgrounds.jpg);
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .title-img {
+            width: 20%;
+            margin: auto;
+        }
+
+        .card {
+            background-color: #666a;
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            background-color: #666;
+            transition: .3s;
+        }
+
+        .modal-content {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btn-close {
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .modal-frame-body {
+            height: 300px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 網頁捲軸【寬度】 */
+        ::-webkit-scrollbar {
+            width: 10px;
+            border-radius: 50px;
+        }
+
+        /* 網頁捲軸【背景】顏色 */
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+
+        /* 網頁捲軸【把手】顏色 */
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            box-shadow: inset 0 0 5px grey;
+            border-radius: 10px;
+        }
+
+        /* 網頁捲軸【滑過時】把手的顏色 */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="title-img"><a href="#"><img
+                src="./kisspng-league-of-legends-esports-logo-font-game-v-v-pls173-5bab06e84cca16.5479342215379350803145.png"
+                alt="LOGO" class="w-100"></a></div>
+
+
+    <!-- Card -->
+    <div class="container">
+        <div class="cardbox row d-flex flex-row m-4">
+        </div>
+    </div>
+
+
+    <template class="col">
+        <div class="card m-2 p-3 border border-dark border-3 rounded-5" style="width: 18rem;">
+            <img src="" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title text-white fw-bolder"></h5>
+                <p class="card-text text-white"></p>
+                <button type="button" class="btn btn-dark btn-intro btn-list" data-bs-toggle="modal"
+                    data-bs-target="#modal">詳細</button>
+                <button type="button" class="btn btn-dark btn-frame btn-list" data-bs-toggle="modal"
+                    data-bs-target="#modalframe">影片</button>
+            </div>
+        </div>
+    </template>
+
+
+
+    <div class="modal" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img class="modal-img w-100 mb-3" src="">
+                    <p class="modal-info fs-4"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalframe" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-frame-body">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/TCQ9MEZL1Y4"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        const url = 'https://ddragon.leagueoflegends.com/cdn/10.22.1/data/zh_TW/champion.json'
+        let cardArr = []
+        let cardInfo = []
+        let heroObj = {}
+        let cardbox, cardTemplate
+
+    </script>
+
+    <script type="module">
+        import { $g } from "./helpers.js"
+
+        cardbox = $g('.cardbox')
+        cardTemplate = $g('.col')
+
+        window.onload = function () {
+            fetch(url)
+                .then((res) => res.json())
+                .then((res) => {
+                    heroObj = res.data
+                    let heroArr = Object.keys(heroObj)
+                    heroArr.forEach((hero, index) => {
+                        cardArr.push({ "id": heroObj[hero].id, "name": heroObj[hero].name, "description": heroObj[hero].blurb, "info": { "attack": heroObj[hero].info.attack, "defense": heroObj[hero].info.defense, "magic": heroObj[hero].info.magic, "tags": heroObj[hero].tags } })
+                    })
+                    cardArr.forEach(card => {
+                        cardbox.appendChild(getInfo(card.id, card.name, card.description, card.info))
+                    })
+                })
+                .catch((res) => console.log(res))
+                .finally()
+
+        }
+
+        function getInfo(id, name, description, info) {
+            let cloneCard = cardTemplate.content.cloneNode(true)
+            cloneCard.querySelector('.card-title').innerText = `${id} - ${name}`
+            cloneCard.querySelector('.card-text').innerText = `${description.substring(0, 50)}...more`
+            cloneCard.querySelector('img').src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`
+
+            cloneCard.querySelectorAll('.btn-list').forEach(btn => {
+                btn.onclick = function () { setModal(id, name, info) }
+            })
+
+            return cloneCard
+        }
+
+        function setModal(id, name, info) {
+            const modal = $g('#modal')
+            modal.querySelector('.modal-title').innerText = `${id}-${name}`
+            modal.querySelector('.modal-img').src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${id}_0.jpg`
+
+            let infos = Object.values(info)
+            modal.querySelector('.modal-info').innerText =
+                `Attacks:${infos[0]}\n Defense:${infos[1]}\n Magic:${infos[2]}\n Tags:${infos[3]}`
+
+            let modalframe = $g('#modalframe')
+            modalframe.querySelector('.modal-title').innerText = `${id}-${name}`
+            console.log(modalframe.querySelector('.modal-title'))
+            modalframe.querySelector('.modalframe-frame').src = ''
+        }
+
+    </script>
+</body>
+
+</html>

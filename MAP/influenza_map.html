@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <!-- map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous" />
+    <style>
+        *{
+            font-weight: bold;
+        }
+        body{
+            background-color: rgb(98, 147, 232);
+        }
+        .container-fluid>.row {
+            height: 100vh;
+        }
+        .title{
+            width: 300px;
+            text-align: center;
+        }
+
+        #map {
+            width: 500px;
+            height:500px;
+            border-radius: 30px;
+            border: 3px solid #000;
+            margin-top:80px;
+            margin-left: 300px;
+        }
+
+        option {
+            text-align: center;
+        }
+
+        .content{
+            width: 250px;
+            height: 250px;
+            border: 1px solid #000;
+            border-radius: 50px;
+            background-color: #fff;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row py-3">
+            <div class="col-lg-7">
+                <div id="map"></div>
+            </div>
+            <div class="col-5 mt-3">
+                <div class="row title">
+                    <h2 class="w-100 ">
+                        <strong></strong> <br>地區年齡性別統計表<br>流感併發重症
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6 ">
+                        <label for="year" class="d-block text-center">年份</label>
+                        <select id="year" class="form-control">
+                            <!-- option -->
+                            <option value="">請選擇年份</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="country" class="d-block text-center">縣/市</label>
+                        <select id="country" class="form-control">
+                            <!-- option -->
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="district" class="d-block text-center">行政區</label>
+                        <select id="district" class="form-control">
+                            <!-- option -->
+                            <option value="">請選擇行政區</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 content mt-1 text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        //TOOD:
+        //1.Map
+        //2.Get data
+        //3.select Menu
+        //4.marker
+
+        //Map
+        let map = L.map('map', {
+            center: [25.03416068163684, 121.56454962636319],
+            zoom: 9
+        })
+
+        //set resource
+        let layerUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        let layer = new L.TileLayer(layerUrl, {
+            minZoom: 8,
+            maxZoom: 19
+        })
+        
+
+        //set resource to map
+        map.addLayer(layer)
+
+        //request
+        //tw.經緯度
+        let areaDataRequest = axios.get('https://raw.githubusercontent.com/ChouJustice/ChouJustice.github.io/main/Map/%E5%8F%B0%E7%81%A3%E8%A1%8C%E6%94%BF%E5%9C%B0%E5%8D%80.json')
+        //Influenaz.data
+        let influenazaDataRequest = axios.get('https://raw.githubusercontent.com/Angus7188/FileStorage/main/Influenza.json')
+
+        //announce
+        let areaData, influenzaData, influenzaAreaData
+        let markers = L.markerClusterGroup()
+
+        let countrySelect = document.querySelector('#country');
+        let districtSelect = document.querySelector('#district');
+        let yearSelect = document.querySelector('#year');
+
+        //window.onload
+        window.onload = function () {
+            Promise.all([areaDataRequest, influenazaDataRequest])
+                .then((res) => {
+                    let [areaRes, influenzaRes] = res
+
+                    areaData = areaRes.data
+                    influenzaData = yearSelect.value = influenzaRes.data
+
+
+                    inputData()
+
+                    // console.log(influenzaAreaData)
+                    yearSelect.innerText = '';
+                    ['請選擇年份'].concat([...new Set(influenzaData.map(x => x.研判年份))])
+                        .forEach(x => {
+                            const opt = document.createElement('option')
+                            opt.innerText = x
+                            opt.value = x == '請選擇年份' ? '' : x
+
+                            yearSelect.appendChild(opt)
+                        })
+                    yearSelect.addEventListener('change', function () {
+                        influenzaData = influenzaRes.data.filter(x => x.研判年份 == yearSelect.value)
+
+                        inputData() 
+                        markers.clearLayers()
+                        setMarker()
+                    })
+
+                    countrySelect.innerText = '';
+                    ['請選擇縣市'].concat([...new Set(influenzaAreaData.map(x => x.縣市))])
+                        .forEach(x => {
+                            const opt = document.createElement('option')
+                            opt.innerText = x
+                            opt.value = x == '請選擇縣市' ? '' : x
+
+                            countrySelect.appendChild(opt)
+                        })
+
+                    countrySelect.addEventListener('change', function () {
+                        let areas = []
+
+                        influenzaAreaData.forEach(x => {
+                            x.縣市 == document.querySelector('#country').value ? areas.push(x) : ''
+                        })
+
+                        districtSelect.innerText = '';
+                        ['請選擇行政區'].concat([...new Set(areas.map(x => x.鄉鎮))])
+                            .forEach(y => {
+                                const opt = document.createElement('option')
+                                opt.innerText = y
+                                opt.value = y == '請選擇行政區' ? '' : y
+
+                                districtSelect.appendChild(opt)
+                            })
+                    })
+
+
+                    //select active
+                    districtSelect.addEventListener('change', function () {
+                        // console.log(areaData)
+
+                        if (this.value != '') {
+                            let distiect = areaData.find(x => x.District == this.value)
+                            map.setView([distiect.Lat, distiect.Lng], 12)
+                        }
+                    })
+                })
+
+
+
+        }
+        function inputData() {
+            influenzaAreaData = influenzaData.map(x => {
+                let area = areaData.filter(y => x.縣市 == y.City && x.鄉鎮 == y.District)
+
+                if (area[0] != undefined) {
+                    return {
+                        ...x, CountyTown: x.縣市 + x.鄉鎮,
+                        Lat: area[0].Lat == undefined ? undefined : area[0].Lat,
+                        Lng: area[0].Lng == undefined ? undefined : area[0].Lng
+                    }
+                }
+            }).filter(x => x != undefined && x.Lat != undefined && x.Lng != undefined);
+
+
+
+        }
+
+        function setMarker() {
+            influenzaAreaData.forEach(x => {
+                let data = x
+
+                let marker = L.marker([data.Lat, data.Lng])
+
+                marker.bindPopup(`
+                <h4>${data.縣市} ${data.鄉鎮}</h4>
+                <p>年份: ${data.研判年份}年</p>
+                <p>病名: ${data.確定病名}</p>
+                <p>週別: ${data.研判週別}週</p>
+                <p>年齡層: ${data.年齡層}歲</p>
+                <p>境外移入: ${data.是否為境外移入}</p>
+                <p>病例數: ${data.確定病例數}位</p>
+                `)
+
+                marker.addEventListener('click', function () {
+                    //title
+                    document.querySelector('strong').innerText = `${data.縣市} ${data.鄉鎮}`
+                    //content
+                    let content = document.querySelector('.content')
+                    content.innerText = ''
+                    let p1 = document.createElement('p')
+                    let p2 = document.createElement('p')
+                    let p3 = document.createElement('p')
+                    let p4 = document.createElement('p')
+                    let p5 = document.createElement('p')
+                    let p6 = document.createElement('p')
+                    p1.innerText = `研判年份:${data.研判年份}年`
+                    p2.innerText = `確定病名:${data.確定病名}`
+                    p3.innerText = `研判週別:${data.研判週別}週`
+                    p4.innerText = `年齡層:${data.年齡層}歲`
+                    p5.innerText = `是否境外移入:${data.是否為境外移入}`
+                    p6.innerText = `已知病例數:${data.確定病例數}位`
+                    content.append(p1, p2, p3, p4, p5, p6)
+                })
+                //test
+                
+                markers.addLayer(marker)
+            })
+            map.addLayer(markers)
+        }
+
+
+
+    </script>
+</body>
+
+</html>
